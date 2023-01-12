@@ -18,8 +18,7 @@ export const constantRoutes = [
   // },
   {
     path: '/login',
-    component: (resolve) => require(['@/pages/login'], resolve),
-    hidden: true
+    component: (resolve) => require(['@/pages/login'], resolve)
   },
   // {
   //   path: '/sso',
@@ -44,8 +43,15 @@ export const constantRoutes = [
   {
     path: '/', // 这个代表首页
     component: (resolve) => require(['@/pages/index'], resolve),
-    name: '首页',
-    meta: {title: '首页', icon: 'dashboard', affix: true}
+    name: '首页'
+  },
+  {
+    path: '/needAuth',
+    component: (resolve) => require(['@/pages/needAuth'], resolve),
+    name: '登录后跳转页',
+    meta: {
+      requireAuth: true //该处代表需要登录才能访问的页面
+    },
   }
 ]
 

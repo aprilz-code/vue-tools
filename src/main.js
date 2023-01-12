@@ -1,8 +1,10 @@
 import Vue from 'vue'
 import Element from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
-import App from './App.vue'
+import App from './App'
 import router from './router'
+
+import './auth'
 // 默认点击背景不关闭弹窗
 // Element.Dialog.props.closeOnClickModal.default = false
 

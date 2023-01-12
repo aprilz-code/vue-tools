@@ -1,8 +1,7 @@
 <template>
     <div>
-        index
-        <br/>
-        <router-link to="/needAuth">to needAuth</router-link>
+        auth
+
 
     </div>
 
@@ -10,7 +9,7 @@
 
 <script>
     export default {
-        name: 'index',
+        name: 'auth',
         data() {
             return {
 
