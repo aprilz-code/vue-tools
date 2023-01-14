@@ -1,9 +1,18 @@
 import axios from 'axios'
+import router from '@/router/index'
 import {Message, MessageBox, Notification} from 'element-ui'
 import {getAccessToken, getRefreshToken, setToken,removeToken} from '@/utils/auth'
 import errorCode from '@/utils/errorCode'
 import {getPath} from "@/utils/ruoyi";
 import {refreshToken} from "@/api/login";
+
+// 引入进度条  start进度条开始  done进度条结束
+import nProgress from 'nprogress';
+// 引入进度条样式，如果不引入那就没有效果
+import "nprogress/nprogress.css";
+
+//将其设置为 false 来关闭 显示右上角螺旋加载提示
+nProgress.configure({ showSpinner: false });
 
 // 需要忽略的提示。忽略后，自动 Promise.reject('error')
 const ignoreMsgs = [
@@ -12,8 +21,7 @@ const ignoreMsgs = [
 ]
 
 
-/// 是否显示重新登录
-export let isRelogin = { show: false }
+
 // Axios 无感知刷新令牌，参考 https://www.dashingdog.cn/article/11 与 https://segmentfault.com/a/1190000020210980 实现
 // 请求队列
 let requestList = []
@@ -32,14 +40,16 @@ const service = axios.create({
 })
 // request拦截器
 service.interceptors.request.use(config => {
+    // start进度条开始
+    nProgress.start();
     //如果有token,则写入header
     if (getAccessToken() ) {
         config.headers['Authorization'] = 'Bearer ' + getAccessToken() // 让每个请求携带自定义token 请根据实际情况自行修改
     }
-    let url = config.url + '?_t=' +Date.parse(new Date()) / 1000  //凭借上时间戳
+
+    let url = config.url;
     // get请求映射params参数
     if (config.method === 'get' && config.params) {
-        url = url +'&'
         for (const propName of Object.keys(config.params)) {
             const value = config.params[propName];
             const part = encodeURIComponent(propName) + '='
@@ -56,8 +66,15 @@ service.interceptors.request.use(config => {
             }
         }
         url = url.slice(0, -1);
-        config.params = {};
+        config.params = {
+            _t: Date.parse(new Date()) / 1000
+        };
 
+    }else{
+        config.data = {
+            ...config.data,
+            _t: Date.parse(new Date()) / 1000
+        }
     }
     config.url = url
     return config
@@ -73,6 +90,7 @@ service.interceptors.response.use(async res => {
         // 获取错误信息
         const msg = res.data.msg || errorCode[code] || errorCode['default']
         if (ignoreMsgs.indexOf(msg) !== -1) { // 如果是忽略的错误码，直接返回 msg 异常
+            nProgress.done()
             return Promise.reject(msg)
         } else if (code === 401) {
             // 如果未认证，并且未进行刷新令牌，说明可能是访问令牌过期了
@@ -92,9 +110,11 @@ service.interceptors.response.use(async res => {
                 } catch (e) {// 为什么需要 catch 异常呢？刷新失败时，请求因为 Promise.reject 触发异常。
                     // 2.2 刷新失败，只回放队列的请求
                     requestList.forEach(cb => cb())
+
                     // 提示是否要登出。即不回放当前请求！不然会形成递归
                     return handleAuthorized();
                 } finally {
+                    nProgress.done()
                     requestList = []
                     isRefreshToken = false
                 }
@@ -112,6 +132,7 @@ service.interceptors.response.use(async res => {
                 message: msg,
                 type: 'error'
             })
+            nProgress.done()
             return Promise.reject(new Error(msg))
         } else if (code !== 200) {
             if (msg === '无效的刷新令牌') { // hard coding：忽略这个提示，直接登出
@@ -121,8 +142,11 @@ service.interceptors.response.use(async res => {
                     title: msg
                 })
             }
+            nProgress.done()
             return Promise.reject('error')
         } else {
+            // done进度条结束
+            nProgress.done()
             return res.data
         }
     }, error => {
@@ -140,6 +164,7 @@ service.interceptors.response.use(async res => {
             type: 'error',
             duration: 5 * 1000
         })
+        nProgress.done()
         return Promise.reject(error)
     }
 )
@@ -151,22 +176,22 @@ export function getBaseHeader() {
 }
 
 function handleAuthorized() {
-    if (!isRelogin.show) {
-        isRelogin.show = true;
-        MessageBox.confirm('登录状态已过期，请重新登录', '系统提示', {
-                confirmButtonText: '重新登录',
-                cancelButtonText: '取消',
-                type: 'warning'
-            }
-        ).then(() => {
-            isRelogin.show = false;
-            removeToken()
-            location.href = getPath('/index');
 
-        }).catch(() => {
-            isRelogin.show = false;
-        });
-    }
+        removeToken()
+       //location.href = getPath('/login')
+    //js里必须引入才可用，不能用this.$router
+        router.push({ path: '/' })
+        // MessageBox.confirm('登录状态已过期，请重新登录', '系统提示', {
+        //         confirmButtonText: '重新登录',
+        //         cancelButtonText: '取消',
+        //         type: 'warning'
+        //     }
+        // ).then(() => {
+        //     removeToken()
+        //     location.href = getPath('/');
+        //
+        // }).catch(() => {
+        // });
     return Promise.reject('登录已过期，请重新登录。')
 }
 

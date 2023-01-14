@@ -5,6 +5,7 @@ import App from './App'
 import router from './router'
 
 import './auth'
+import store from './store'
 // 默认点击背景不关闭弹窗
 // Element.Dialog.props.closeOnClickModal.default = false
 
@@ -15,5 +16,6 @@ Vue.config.productionTip = false
 new Vue({
   el: '#app',
   router,
-  render: h => h(App),
+  store,
+  render: h => h(App)
 })
