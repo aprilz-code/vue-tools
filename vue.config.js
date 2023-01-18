@@ -8,7 +8,7 @@ function resolve(dir) {
 // 开启gzip压缩
 const CompressionPlugin = require('compression-webpack-plugin')
 
-const name = 'aprilz工具箱' // 网页标题
+const name = 'Aprilz工具箱' // 网页标题
 
 const port = 9090
 
@@ -16,7 +16,7 @@ const port = 9090
 // 配置参考官网 https://cli.vuejs.org/zh/config/#baseurl
 const {defineConfig} = require('@vue/cli-service')
 module.exports = defineConfig({
-    publicPath: './', // 基本路径
+    publicPath: '/', // 基本路径,使用./则为相对路径
     // 在npm run build 或 yarn build 时 ，生成文件的目录名称（要和baseUrl的生产环境路径一致）（默认dist）
     outputDir: 'dist',
     // 用于放置生成的静态资源 (js、css、img、fonts) 的；（项目打包之后，静态资源会放在这个文件夹下）
@@ -39,31 +39,48 @@ module.exports = defineConfig({
             // detail: https://cli.vuejs.org/config/#devserver-proxy
             [process.env.VUE_APP_BASE_API]: {
                 target: 'http://192.168.1.10:48080/app-api',
-                // target: `http://api-dashboard.yudao.iocoder.cn`,
                 changeOrigin: true,
                 ws: false,
                 pathRewrite: {
                     ['^' + process.env.VUE_APP_BASE_API]: ''
+                }
+            },
+            '/han-api':{
+                target: 'https://api.vvhan.com/api',
+                changeOrigin: true,//允许跨域
+                ws: false,
+                pathRewrite: {
+                    '^/han-api': ''
                 }
             }
 
         },
     },
     // 使用别名目录， 支持@/pages这种语法--这里是链式配置
-    chainWebpack: (config) => {
-        config.resolve.alias
-            .set('@', resolve('src'))
-            .set('@assets', resolve('src/assets'))
-        // 这里只写了两个个，你可以自己再加，按这种格式.set('', resolve(''))
+    // chainWebpack: (config) => {
+    //     config.resolve.alias
+    //         .set('@', resolve('src'))
+    //         .set('@assets', resolve('src/assets'))
+    //     // 这里只写了两个个，你可以自己再加，按这种格式.set('', resolve(''))
+    // },
+    //这里配置网页标题
+    chainWebpack: config => {
+        config.plugin('html')
+            .tap(args => {
+                args[0].title = '✨'+name+'✨'
+                return args
+            })
+        // ...
     },
     //对象式配置
     configureWebpack: {
-        name: name,
-        // resolve: {
-        //   alias: {
-        //     '@': resolve('src')
-        //   }
-        // },
+       // name: name,// TODO不知道为啥这里配置的失效
+        resolve: {
+          alias: {
+            '@': resolve('src'),
+            '@assets': resolve('src/assets'),
+          }
+        },
         // 采用cdn才放开
         // externals: {
         //     'vue': 'Vue',

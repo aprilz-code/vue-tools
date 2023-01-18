@@ -1,6 +1,5 @@
 import request from '@/utils/request'
 import { getRefreshToken } from '@/utils/auth'
-import service from '@/utils/request'
 
 // 登录方法
 export function login(mobile, password, captchaVerification, socialType, socialCode, socialState) {
@@ -83,7 +82,7 @@ export function smsLogin(mobile, code) {
 
 // 刷新访问令牌
 export function refreshToken() {
-    return service({
+    return request({
         url: '/member/auth/refresh-token?refreshToken=' + getRefreshToken(),
         method: 'post',
     })
@@ -109,7 +108,7 @@ export function authorize(responseType, clientId, redirectUri, state,
         scopes[scope] = false
     }
     // 发起请求
-    return service({
+    return request({
         url: '/system/oauth2/authorize',
         headers: {
             'Content-type': 'application/x-www-form-urlencoded'

@@ -1,6 +1,10 @@
 <template>
     <div id="app">
-        <router-view/>
+<!--        <avue-affix>-->
+<!--            固定在最顶部-->
+<!--        </avue-affix>-->
+            <router-view/>
+
     </div>
 </template>
 
@@ -9,19 +13,25 @@
     export default {
         name: 'App',
         components: {},
-        created() {
-            this.$nextTick(() => {
-                // 1.禁用右键菜单
-                document.oncontextmenu = new Function("event.returnValue=false");
-                // 2.禁用鼠标选中
-                document.onselectstart = new Function("event.returnValue=false");
-                // 3.禁止键盘F12键
-                // document.addEventListener("keydown", function (e) {
-                //     if (e.key == "F12") {
-                //         e.preventDefault(); // 如果按下键F12,阻止事件
-                //     }
-                // });
-            });
+        mounted() {
+            var that = this;
+            window.addEventListener("resize", that.handleSize);
+            that.handleSize();
+        },
+        methods: {
+            handleSize() {
+                if (this._isMobile()) {
+                    this.$store.dispatch('app/toggleDevice', 'Mobile')
+                } else {
+                    this.$store.dispatch('app/toggleDevice', 'Desktop')
+                }
+            },
+            _isMobile() {
+                let flag = navigator.userAgent.match(
+                    /(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i
+                );
+                return flag;
+            },
         },
     }
 </script>
@@ -33,6 +43,6 @@
         -moz-osx-font-smoothing: grayscale;
         text-align: center;
         color: #2c3e50;
-        margin-top: 60px;
+        /*margin-top: 60px;*/
     }
 </style>

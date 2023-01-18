@@ -1,20 +1,26 @@
 <!DOCTYPE html>
 <html lang="">
-  <head>
+<head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-      <meta name="keywords" content="编程,工具,小工具,工具大全,小米代挂,青龙代挂,京东代挂,聊天室">
-      <meta name="description" content="工具大全">
-      <!--   禁止手动缩放，保证真实分辨率   -->
-      <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1, user-scalable=no">
+    <meta name="keywords" content="编程,工具,小工具,工具大全,小米代挂,青龙代挂,京东代挂,聊天室">
+    <meta name="description" content="工具大全">
+    <!--   禁止手动缩放，保证真实分辨率   -->
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1, user-scalable=no">
     <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+        <!-- 引入avue   cdn方式，还需修改main.js ,先移到本地 main.js引用 -->
+<!--    <link rel="stylesheet" href="./src/assets/avue.css"/>-->
+<!--    &lt;!&ndash; 引入相关JS 文件 &ndash;&gt;-->
+<!--    <script src="https://cdn.jsdelivr.net/npm/@smallwei/avue/lib/avue.min.js"></script>-->
+
     <title><%= htmlWebpackPlugin.options.title %></title>
-  </head>
-  <body>
-    <noscript>
-      <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
-    </noscript>
-    <div id="app"></div>
-    <!-- built files will be auto injected -->
-  </body>
+</head>
+<body>
+<noscript>
+    <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled.
+        Please enable it to continue.</strong>
+</noscript>
+<div id="app"></div>
+<!-- built files will be auto injected -->
+</body>
 </html>
