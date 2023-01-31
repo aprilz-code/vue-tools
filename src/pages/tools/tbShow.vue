@@ -5,9 +5,9 @@
                 <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
                     <div style="">
                         <div class="desc">
-                            <img :src="picUrl" :alt="title">
+                            <img :src="picUrl" :alt="title" @error="tryAg()"/>
                         </div>
-                        <div class="desc title">{{ title }}</div>
+                        <div class="desc title">{{title}}</div>
                     </div>
                     <div style="margin:0 auto;width:80%;">
                         <div class="desc">
@@ -48,8 +48,18 @@
 
                 })
             },
+            tryAg() {
+                getTbShow().then(res => {
+                    if (!res && res.status !== 200) {
+                        this.$message.error(JSON.stringify(res))
+                    }
+                    this.title = res.data.title
+                    this.picUrl = res.data.pic
+
+                })
+            },
             downloadImg() {
-                var image = new Image();
+                let image = new Image();
                 // 解决跨域 Canvas 污染问题
                 image.setAttribute("crossOrigin", "anonymous");
                 let _that = this
@@ -99,6 +109,8 @@
         overflow: hidden;
         max-width: 100%;
         max-height: 800px;
+        min-width: 100%;
+        min-height: 400px;
         box-shadow: 4px 4px 4px rgba(177, 174, 172, 0.6);
         border-radius: 4px;
     }
