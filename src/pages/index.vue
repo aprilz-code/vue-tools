@@ -35,7 +35,7 @@
                                 // },
 
                             ],
-                            content: '青龙京豆挂机，自动做京东任务，得京豆,以及兑换奖品，试用等等。。。',
+                            content: '自动做任务以及兑换奖品，试用。。。',
                             href:'https://nps.losey.top',
                             target:'_blank',
                             time:'2023-01-17'
@@ -47,7 +47,8 @@
                             imgsrc: 'https://tuapi.eees.cc/api.php?category=dongman&type=302&px=pc&r=' + Math.floor((Math.random()*1000)+1),
                             headimg: [],
                             content: '实时修改支付宝，微信，qq等运动步数',
-                            href:'https://mi.losey.top',
+                            //href:'https://mi.losey.top',
+                            href:'/tools/mi',
                             target:'_blank',
                             time:'2023-01-17'
                         },

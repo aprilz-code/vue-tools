@@ -61,6 +61,11 @@ export const constantRoutes = [
                 path: 'JDTool', // 这种错误格式/tbShow，子路由不需要/
                 component: (resolve) => require(['@/pages/tools/jdTool'], resolve),
                 name: 'jd口令解析',
+            },
+            {
+                path: 'mi', // 这种错误格式/tbShow，子路由不需要/
+                component: (resolve) => require(['@/pages/tools/mi'], resolve),
+                name: '小米运动',
             }
         ]
     },
