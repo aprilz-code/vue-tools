@@ -40,6 +40,7 @@ export const constantRoutes = [
         component: (resolve) => require(['@/pages/news'], resolve),
         name: '热搜'
     },
+
     {
         path: '/tools',
         hidden: true,
@@ -49,23 +50,21 @@ export const constantRoutes = [
                 path: 'tbShow', // 这种错误格式/tbShow，子路由不需要/
                 component: (resolve) => require(['@/pages/tools/tbShow'], resolve),
                 name: '淘宝买家秀',
-            }
-        ]
-    },
-    {
-        path: '/tools',
-        hidden: true,
-        component: appMain, //必须添加，否则子路由无法访问，出现白屏
-        children: [
+            },
             {
-                path: 'JDTool', // 这种错误格式/tbShow，子路由不需要/
+                path: 'JDTool',
                 component: (resolve) => require(['@/pages/tools/jdTool'], resolve),
                 name: 'jd口令解析',
             },
             {
-                path: 'mi', // 这种错误格式/tbShow，子路由不需要/
+                path: 'mi',
                 component: (resolve) => require(['@/pages/tools/mi'], resolve),
                 name: '小米运动',
+            },
+            {
+                path: 'talk',
+                component: (resolve) => require(['@/pages/tools/talk'], resolve),
+                name: '聊天室',
             }
         ]
     },

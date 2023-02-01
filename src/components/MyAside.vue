@@ -37,7 +37,7 @@
                     },
                     {
                         icon: 'el-icon-s-comment',
-                        url: '/talk',
+                        url: '/tools/talk',
                         name: '聊天室',
                     }
                 ]
