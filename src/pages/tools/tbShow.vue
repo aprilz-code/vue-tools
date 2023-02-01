@@ -110,7 +110,7 @@
         max-width: 80%;
         max-height: 600px;
         min-width: 60%;
-        min-height: 400px;
+        min-height: 320px;
         box-shadow: 4px 4px 4px rgba(177, 174, 172, 0.6);
         border-radius: 4px;
     }
