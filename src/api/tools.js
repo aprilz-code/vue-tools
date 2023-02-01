@@ -3,7 +3,7 @@ import request from '@/utils/request'
 
 export function getTbShow() {
     return thirdRequest({
-        url: '/han-api/tao?type=json',
+        url: 'https://api.vvhan.com/api/tao?type=json',
         method: 'get'
     })
 }
