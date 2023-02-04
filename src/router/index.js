@@ -89,6 +89,12 @@ export const constantRoutes = [
         path: '/401',
         component: (resolve) => require(['@/pages/error/401'], resolve),
         hidden: true
+    },
+    //这个*匹配必须放在最后，将改路由配置放到所有路由的配置信息的最后，否则会其他路由path匹配造成影响。
+    {
+        path: '*',
+        redirect: '/404',
+        hidden: true
     }
 
 ]
