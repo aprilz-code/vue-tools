@@ -45,4 +45,18 @@
         color: #2c3e50;
         /*margin-top: 60px;*/
     }
+
+    html,body {
+        margin: 0;
+        height: 100%;
+    }
+
+    .el-menu{
+        height:100%
+    }
+
+    .container{
+        height: 100%;
+        min-height: 500px;
+    }
 </style>

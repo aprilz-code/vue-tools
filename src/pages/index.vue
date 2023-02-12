@@ -1,11 +1,16 @@
 <template>
     <el-container >
-    <el-aside width="100px" >
-        <my-aside/>
-    </el-aside>
-    <el-main>
-            <avue-data-imgtext :option="option"></avue-data-imgtext>
-    </el-main>
+        <el-header>
+            <my-header/>
+        </el-header>
+        <el-container class="container">
+            <el-aside width="150px">
+                <my-aside/>
+            </el-aside>
+            <el-main>
+                <avue-data-imgtext :option="option"></avue-data-imgtext>
+            </el-main>
+        </el-container>
 
     </el-container>
 
@@ -13,10 +18,12 @@
 
 <script>
     import MyAside from "@/components/MyAside";
+    import MyHeader from "@/components/MyHeader";
     export default {
         name: 'Index',
         components:{
             MyAside,
+            MyHeader
         },
         data() {
             return {

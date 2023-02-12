@@ -1,14 +1,15 @@
 <template>
-    <el-container>
-        <el-aside width="100px">
-            <my-aside/>
-        </el-aside>
-        <el-main>
-            <avue-article :props="props" :data="data"></avue-article>
-        </el-main>
-
-    </el-container>
-
+        <el-container >
+            <el-header>Header</el-header>
+            <el-container class="container">
+                <el-aside width="150px">
+                    <my-aside/>
+                </el-aside>
+                <el-main>
+                    <avue-article :props="props" :data="data"></avue-article>
+                </el-main>
+            </el-container>
+        </el-container>
 </template>
 
 <script>
