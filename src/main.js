@@ -8,6 +8,9 @@ import AVUE from '@assets/js/avue.min.js'
 import './auth'
 import store from './store'
 import '@assets/css/avue.css'
+// 全局引入封装组件
+import {InstallAll} from '@/components/global.js';
+
 
 Vue.prototype.$clipboard = Clipboard;
 
@@ -16,6 +19,7 @@ Vue.prototype.$clipboard = Clipboard;
 
 Vue.use(Element);
 Vue.use(AVUE);
+Vue.use(InstallAll);
 
 Vue.config.productionTip = false
 

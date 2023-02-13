@@ -1,36 +1,43 @@
 <template  >
+    <div>
+        <div style="float:right;"  class="userInfoAvatar">
+                <span  v-show="nickname ==undefined || nickname == ''">
+                    <el-button type="text" @click="userLogin">登录</el-button>
+                </span>
 
-    <el-dropdown @command="handleCommand" class="userInfoAvatar">
-        <div style="float:right;">
-            <el-avatar :size="50" :fit="cover" :src="avatar" @error="errorHandler">
-                <img :src="require('@assets/images/profile.jpg')"/>
-            </el-avatar>
         </div>
 
+        <el-dropdown @command="handleCommand" class="userInfoAvatar" v-show="nickname !=undefined && nickname !=''">
 
-        <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item command="login" v-show="token ==undefined">登录</el-dropdown-item>
-            <el-dropdown-item command="goUserInfo" v-show="token !=undefined">个人中心</el-dropdown-item>
-            <el-dropdown-item command="logout" v-show="token !=undefined ">退出登录</el-dropdown-item>
-        </el-dropdown-menu>
+           <el-avatar :size="50" fit="cover" :src="avatar" @error="errorHandler">
+                <img :src="require('@assets/images/profile.jpg')"/>
+            </el-avatar>
+            <el-dropdown-menu slot="dropdown" >
+                <el-dropdown-item command="goUserInfo" >个人中心</el-dropdown-item>
+                <el-dropdown-item command="logout" >退出登录</el-dropdown-item>
+            </el-dropdown-menu>
 
-    </el-dropdown>
+        </el-dropdown>
 
+        <LoginBox v-if="showLogin" @closeLoginBox="closeLoginBox"></LoginBox>
 
-<!--    <LoginBox v-if="showLogin" @closeLoginBox="closeLoginBox"></LoginBox>-->
-
+    </div>
 </template>
 
 <script>
     import { mapGetters } from "vuex";
     import {getPath} from "@/utils/ruoyi";
+    import LoginBox from "@/components/LoginBox";
 
     export default {
         name: 'MyHeader',
+        components:{
+            LoginBox
+        },
         data() {
             return {
                 showLogin: false, //显示登录框
-                drawer: false
+                drawer: false,
             }
         },
 
@@ -39,9 +46,8 @@
                 //同名缩写
                 "avatar",
                 "nickname",
-                'token'
-
             ]),
+
         },
         methods: {
             errorHandler(){

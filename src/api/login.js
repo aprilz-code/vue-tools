@@ -19,6 +19,24 @@ export function login(mobile, password, captchaVerification, socialType, socialC
     })
 }
 
+// 登录方法
+export function userLogin(userName, password, captchaVerification, socialType, socialCode, socialState) {
+    const data = {
+        userName,
+        password,
+        captchaVerification,
+        // 社交相关
+        socialType,
+        socialCode,
+        socialState
+    }
+    return request({
+        url: '/member/auth/userLogin',
+        method: 'post',
+        data: data
+    })
+}
+
 // 获取用户详细信息
 export function getInfo() {
     return request({

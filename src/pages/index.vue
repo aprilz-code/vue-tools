@@ -1,10 +1,11 @@
 <template>
+
     <el-container >
         <el-header>
             <my-header/>
         </el-header>
         <el-container class="container">
-            <el-aside width="150px">
+            <el-aside  width="150px">
                 <my-aside/>
             </el-aside>
             <el-main>
@@ -18,12 +19,10 @@
 
 <script>
     import MyAside from "@/components/MyAside";
-    import MyHeader from "@/components/MyHeader";
     export default {
         name: 'Index',
         components:{
-            MyAside,
-            MyHeader
+            MyAside
         },
         data() {
             return {

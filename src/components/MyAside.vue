@@ -1,16 +1,15 @@
 <template  >
-            <el-menu
-                    :default-active="$route.path" router
-                    background-color="#545c64"
-                    text-color="#fff"
-                    active-text-color="#ffd04b"  >
-                <el-menu-item :index="menu.url" v-for="(menu,index) in menus" :key="index">
-                    <i :class="menu.icon"></i>
-                    <span slot="title">{{ menu.name }}</span>
-                </el-menu-item>
+        <el-menu
+                :default-active="$route.path" router
+                background-color="#545c64"
+                text-color="#fff"
+                active-text-color="#ffd04b"  >
+            <el-menu-item :index="menu.url" v-for="(menu,index) in menus" :key="index">
+                <i :class="menu.icon"></i>
+                <span slot="title">{{ menu.name }}</span>
+            </el-menu-item>
 
-            </el-menu>
-
+        </el-menu>
 
 </template>
 
