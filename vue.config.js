@@ -29,7 +29,7 @@ module.exports = defineConfig({
     parallel: true,
     // webpack-dev-server 相关配置
     devServer: {
-        host: '192.168.1.10', // 允许局域网ip访问
+        host: '0.0.0.0', // 允许局域网ip访问
         port: port,
         open: false, //启动完自动打开浏览器
         historyApiFallback: true, // 因为使用histery模式，必须配置这一项，否则刷新页面出现 CANNOT GET
