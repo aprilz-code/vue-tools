@@ -11,6 +11,9 @@ import '@assets/css/avue.css'
 // 全局引入封装组件
 import {InstallAll} from '@/components/global.js';
 
+// 引入ali icon
+import "@/assets/css/iconfont/iconfont.css";
+
 
 Vue.prototype.$clipboard = Clipboard;
 
