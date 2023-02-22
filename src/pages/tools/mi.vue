@@ -15,6 +15,7 @@
                 v-model="form.model"
                 active-color="#13ce66"
                 active-text="自动模式"
+                :disabled="true"
                 inactive-color="#ff4949" inactive-text="手动模式"
                 @change="changeModel($event)">
               </el-switch>
@@ -411,7 +412,6 @@ export default {
                   })
                   return
               }
-              debugger
             updateMi(this.form).then(response => {
                 if (response.code === 0) {
                 this.$refs.form.resetFields()
