@@ -12,12 +12,12 @@
           <el-col :span="24">
             <el-form-item label="运行方式">
               <el-switch
-                v-model="form.model"
-                active-color="#13ce66"
-                active-text="自动模式"
-                :disabled="true"
-                inactive-color="#ff4949" inactive-text="手动模式"
-                @change="changeModel($event)">
+                  v-model="form.model"
+                  active-color="#13ce66"
+                  active-text="自动模式"
+                  disabled="true"
+                  inactive-color="#ff4949" inactive-text="手动模式"
+                  @change="changeModel($event)">
               </el-switch>
             </el-form-item>
           </el-col>
@@ -78,19 +78,19 @@
             <el-row :gutter="20" style="padding-top: 40px">
               <el-col :md="{span:12}" :sm="{span:16}" :xs="{span:24}">
                 <el-form-item
-                  :prop="`zdList.${index}.time`"
-                  :rules='form.model? rules.time : []' label="选择时间"
-                  style="height: 50px; width: 100%"
+                    :prop="`zdList.${index}.time`"
+                    :rules='form.model? rules.time : []' label="选择时间"
+                    style="height: 50px; width: 100%"
                 >
                   <el-time-select
-                    v-model="item.time"
-                    :editable="false" :picker-options="{
+                      v-model="item.time"
+                      :editable="false" :picker-options="{
                     start: '00:00',
                     step: '00:15',
                     end: '24:00'}"
-                    placeholder="选择时间"
-                    size="mini" style="width: 80%"
-                    @blur="checkTime($event)">
+                      placeholder="选择时间"
+                      size="mini" style="width: 80%"
+                      @blur="checkTime($event)">
                   </el-time-select>
                 </el-form-item>
               </el-col>
@@ -102,27 +102,27 @@
             <el-row :gutter="20">
               <el-col :md="{span:12}" :sm="{span:16}" :xs="{span:24}">
                 <el-form-item
-                  :prop="`zdList.${index}.zdMinStep`"
-                  :rules='form.model? rules.zdMinStep : [] ' label="最小步数"
+                    :prop="`zdList.${index}.zdMinStep`"
+                    :rules='form.model? rules.zdMinStep : [] ' label="最小步数"
                 >
                   <el-input-number
-                    v-model="item.zdMinStep"
-                    :min="1" :step="1" placeholder="请输入"
-                    size="small" step-strictly
-                    @blur="checkZdMinStep($event)"
+                      v-model="item.zdMinStep"
+                      :min="1" :step="1" placeholder="请输入"
+                      size="small" step-strictly
+                      @blur="checkZdMinStep($event)"
                   />
                 </el-form-item>
               </el-col>
               <el-col :md="{span:12}" :sm="{span:16}" :xs="{span:24}">
                 <el-form-item
-                  :prop="`zdList.${index}.zdMaxStep`"
-                  :rules='form.model? rules.zdMaxStep : []' label="最大步数"
+                    :prop="`zdList.${index}.zdMaxStep`"
+                    :rules='form.model? rules.zdMaxStep : []' label="最大步数"
                 >
                   <el-input-number
-                    v-model="item.zdMaxStep"
-                    :min="1" :step="1" placeholder="请输入"
-                    size="small" step-strictly
-                    @blur="checkZdMaxStep($event)"
+                      v-model="item.zdMaxStep"
+                      :min="1" :step="1" placeholder="请输入"
+                      size="small" step-strictly
+                      @blur="checkZdMaxStep($event)"
                   />
                 </el-form-item>
               </el-col>
@@ -150,9 +150,9 @@
 
 
       <el-dialog
-        title="常见问题"
-        :visible.sync="dialogVisible"
-        width="90%"
+          title="常见问题"
+          :visible.sync="dialogVisible"
+          width="90%"
       >
         <div>
           <br/> Q:我的账号安全吗？
@@ -202,251 +202,251 @@ export default {
           zdMaxStep: undefined,
         }]
       },
-        rules: {
-          uin: [
-            {
-              required: true,
-              message: '请输入手机号或者邮箱',
-              trigger: 'blur'
-            },
-            {validator: phoneOrEmail, trigger: 'blur'}
-          ],
+      rules: {
+        uin: [
+          {
+            required: true,
+            message: '请输入手机号或者邮箱',
+            trigger: 'blur'
+          },
+          {validator: phoneOrEmail, trigger: 'blur'}
+        ],
 
-          pwd: [
-            {
-              required: true,
-              message: '请输入密码',
-              trigger: 'blur'
-            }
-          ],
-          minStep: [
-            {
-              required: true,
-              message: '请输入最小步数',
-              trigger: 'blur'
-            },
-            {
-              validator: (rule, value, callback) => {
-                const {maxStep, minStep} = this.form
-                if (minStep > maxStep) {
-                  return callback(new Error('最小步数需小于最大步数'))
-                } else {
-                  return callback()
-                }
-
-              }, trigger: 'blur'
-            }
-          ],
-          maxStep: [
-            {
-              required: true,
-              message: '请输入最大步数',
-              trigger: 'blur'
-            },
-            {
-              validator: (rule, value, callback) => {
-                const {maxStep, minStep} = this.form
-                if (minStep > maxStep) {
-                  return callback(new Error('最小步数需小于最大步数'))
-                } else {
-                  return callback()
-                }
-              }, trigger: 'blur'
-            }
-          ],
-          cardNo: [
-            {
-              required: true,
-              message: '请输入卡密',
-              trigger: 'blur'
-            }
-          ],
-          time: [
-            {
-              required: true,
-              message: '请选择时间',
-              trigger: 'blur'
-            }
-          ],
-          zdMinStep: [
-            {
-              required: true,
-              message: '请输入最小步数',
-              trigger: 'blur'
-            },
-            {
-              validator: (rule, value, callback) => {
-                //这里取到里面的index
-                let index = rule.field.replace(/[^0-9]/ig, '')
-                let zdMaxStep = this.form.zdList[index].zdMaxStep
-                if (value > zdMaxStep) {
-                  return callback(new Error('最小步数需小于最大步数'))
-                } else {
-                  return callback()
-                }
-
+        pwd: [
+          {
+            required: true,
+            message: '请输入密码',
+            trigger: 'blur'
+          }
+        ],
+        minStep: [
+          {
+            required: true,
+            message: '请输入最小步数',
+            trigger: 'blur'
+          },
+          {
+            validator: (rule, value, callback) => {
+              const {maxStep, minStep} = this.form
+              if (minStep > maxStep) {
+                return callback(new Error('最小步数需小于最大步数'))
+              } else {
                 return callback()
-              }, trigger: 'blur'
-            }
-          ],
-          zdMaxStep: [
-            {
-              required: true,
-              message: '请输入最大步数',
-              trigger: 'blur'
-            },
-            {
-              validator: (rule, value, callback) => {
-                //这里取到里面的index
-                let index = rule.field.replace(/[^0-9]/ig, '')
-                let zdMinStep = this.form.zdList[index].zdMinStep
-                if (zdMinStep > value) {
-                  return callback(new Error('最小步数需小于最大步数'))
-                } else {
-                  return callback()
-                }
+              }
 
+            }, trigger: 'blur'
+          }
+        ],
+        maxStep: [
+          {
+            required: true,
+            message: '请输入最大步数',
+            trigger: 'blur'
+          },
+          {
+            validator: (rule, value, callback) => {
+              const {maxStep, minStep} = this.form
+              if (minStep > maxStep) {
+                return callback(new Error('最小步数需小于最大步数'))
+              } else {
                 return callback()
-              }, trigger: 'blur'
-            }
-          ],
+              }
+            }, trigger: 'blur'
+          }
+        ],
+        cardNo: [
+          {
+            required: true,
+            message: '请输入卡密',
+            trigger: 'blur'
+          }
+        ],
+        time: [
+          {
+            required: true,
+            message: '请选择时间',
+            trigger: 'blur'
+          }
+        ],
+        zdMinStep: [
+          {
+            required: true,
+            message: '请输入最小步数',
+            trigger: 'blur'
+          },
+          {
+            validator: (rule, value, callback) => {
+              //这里取到里面的index
+              let index = rule.field.replace(/[^0-9]/ig, '')
+              let zdMaxStep = this.form.zdList[index].zdMaxStep
+              if (value > zdMaxStep) {
+                return callback(new Error('最小步数需小于最大步数'))
+              } else {
+                return callback()
+              }
 
-        }
+              return callback()
+            }, trigger: 'blur'
+          }
+        ],
+        zdMaxStep: [
+          {
+            required: true,
+            message: '请输入最大步数',
+            trigger: 'blur'
+          },
+          {
+            validator: (rule, value, callback) => {
+              //这里取到里面的index
+              let index = rule.field.replace(/[^0-9]/ig, '')
+              let zdMinStep = this.form.zdList[index].zdMinStep
+              if (zdMinStep > value) {
+                return callback(new Error('最小步数需小于最大步数'))
+              } else {
+                return callback()
+              }
+
+              return callback()
+            }, trigger: 'blur'
+          }
+        ],
 
       }
-    },
-    watch: {},
-    computed: {},
-    components: {},
-    created () {
-    },
-    mounted () {
 
-    },
-    methods: {
-      //自动打卡新增一行
-      addZd() {
-        let length = this.form.zdList.length
-        if (length >= 3) {
-          this.$message({
-            type: 'error',
-            message: '目前最多三行执行计划哦~'
-          })
-          return
-        }
+    }
+  },
+  watch: {},
+  computed: {},
+  components: {},
+  created () {
+  },
+  mounted () {
 
-        this.form.zdList.push(
+  },
+  methods: {
+    //自动打卡新增一行
+    addZd() {
+      let length = this.form.zdList.length
+      if (length >= 3) {
+        this.$message({
+          type: 'error',
+          message: '目前最多三行执行计划哦~'
+        })
+        return
+      }
+
+      this.form.zdList.push(
           {
             time: '',
             zdMinStep: undefined,
             zdMaxStep: undefined,
           }
-        )
-      },
-      removeZd(item) {
-        let length = this.form.zdList.length
-        let index = this.form.zdList.indexOf(item)
-        if (length <= 1) {
-          this.$message({
-            type: 'error',
-            message: '最少保留一条执行计划哦~'
-          })
-          return
-        }
-        this.form.zdList.splice(index, 1)
+      )
+    },
+    removeZd(item) {
+      let length = this.form.zdList.length
+      let index = this.form.zdList.indexOf(item)
+      if (length <= 1) {
+        this.$message({
+          type: 'error',
+          message: '最少保留一条执行计划哦~'
+        })
+        return
+      }
+      this.form.zdList.splice(index, 1)
 
-      },
-      changeModel(e) {
-        if (e) {
-          this.zdShow = true
-        } else {
-          this.zdShow = false
+    },
+    changeModel(e) {
+      if (e) {
+        this.zdShow = true
+      } else {
+        this.zdShow = false
+      }
+      this.form.maxStep = undefined
+      this.form.minStep = undefined
+      this.form.cardNo = undefined
+      this.form.zdList = [{
+        time: '',
+        zdMinStep: undefined,
+        zdMaxStep: undefined,
+      }]
+    },
+    resetForm(searchForm) {
+      //  this.$nextTick(()=>{
+      this.$refs[searchForm].resetFields()
+      //    })
+    },
+    checknum(type) {
+      if (type === 'maxStep') {
+        if (this.form.maxStep > this.form.minStep) {
+          this.$refs.form.validateField('minStep')
         }
-        this.form.maxStep = undefined
-        this.form.minStep = undefined
-        this.form.cardNo = undefined
-        this.form.zdList = [{
-          time: '',
-          zdMinStep: undefined,
-          zdMaxStep: undefined,
-        }]
-      },
-      resetForm(searchForm) {
-        //  this.$nextTick(()=>{
-        this.$refs[searchForm].resetFields()
-        //    })
-      },
-      checknum(type) {
-        if (type === 'maxStep') {
-          if (this.form.maxStep > this.form.minStep) {
-            this.$refs.form.validateField('minStep')
+      } else {
+        if (this.form.maxStep > this.form.minStep) {
+          this.$refs.form.validateField('maxStep')
+        }
+
+      }
+    },
+    checkCardNo() {
+      this.$refs.form.validateField('cardNo')
+    },
+    checkTime() {
+      this.$refs.form.validateField('time')
+    },
+    checkZdMinStep() {
+      this.$refs.form.validateField('zdMinStep')
+    },
+    checkZdMaxStep() {
+      this.$refs.form.validateField('zdMaxStep')
+    },
+    onSubmit() {
+      this.$refs['form'].validate((valid) => {
+        if (valid) {
+          if(this.form.model){
+            this.$notify.error({
+              title: '错误',
+              message: '抱歉，目前先不放开自动定时功能',
+              type: 'success',
+              offset: 100
+            })
+            return
           }
-        } else {
-          if (this.form.maxStep > this.form.minStep) {
-            this.$refs.form.validateField('maxStep')
-          }
-
-        }
-      },
-      checkCardNo() {
-        this.$refs.form.validateField('cardNo')
-      },
-      checkTime() {
-        this.$refs.form.validateField('time')
-      },
-      checkZdMinStep() {
-        this.$refs.form.validateField('zdMinStep')
-      },
-      checkZdMaxStep() {
-        this.$refs.form.validateField('zdMaxStep')
-      },
-      onSubmit() {
-        this.$refs['form'].validate((valid) => {
-          if (valid) {
-              if(this.form.model){
-                  this.$notify.error({
-                      title: '错误',
-                      message: '抱歉，目前先不放开自动定时功能',
-                      type: 'success',
-                      offset: 100
-                  })
-                  return
-              }
-            updateMi(this.form).then(response => {
-                if (response.code === 0) {
-                this.$refs.form.resetFields()
-                this.$notify({
-                  title: '成功',
-                  message: response.data,
-                  type: 'success',
-                  offset: 100
-                })
-
-              } else {
-                this.$notify.error({
-                  title: '错误',
-                  message: response.message,
-                  type: 'success',
-                  offset: 100
-                })
-              }
-            }).catch((err) => {
-              this.$notify.error({
-                title: '错误',
-                message: err.message,
+          updateMi(this.form).then(response => {
+            if (response.code === 0) {
+              this.$refs.form.resetFields()
+              this.$notify({
+                title: '成功',
+                message: response.data,
                 type: 'success',
                 offset: 100
               })
-            });
-          } else {
-            //console.log("error submit!!");
-            return false
-          }
-        })
-      }
 
+            } else {
+              this.$notify.error({
+                title: '错误',
+                message: response.message,
+                type: 'success',
+                offset: 100
+              })
+            }
+          }).catch((err) => {
+            this.$notify.error({
+              title: '错误',
+              message: err.message,
+              type: 'success',
+              offset: 100
+            })
+          });
+        } else {
+          //console.log("error submit!!");
+          return false
+        }
+      })
     }
+
   }
+}
 </script>
 <style scoped>
 .zdDiv {
