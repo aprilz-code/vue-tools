@@ -15,7 +15,7 @@
                   v-model="form.model"
                   active-color="#13ce66"
                   active-text="自动模式"
-                  disabled="true"
+                  :disabled="zdClose"
                   inactive-color="#ff4949" inactive-text="手动模式"
                   @change="changeModel($event)">
               </el-switch>
@@ -188,6 +188,7 @@ export default {
       zdShow: false,
       //常见问题提示框
       dialogVisible: false,
+      zdClose: true,
       form: {
         uin: '',
         pwd: '',
