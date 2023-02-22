@@ -30,7 +30,7 @@
         center>
       <el-divider></el-divider>
 
-      <el-form :label-position="labelPosition" :rules="loginRules" :model="loginForm" ref="loginForm">
+      <el-form  :rules="loginRules" :model="loginForm" ref="loginForm">
 
         <div class="passwordLogin" v-if="loginType=='pwd'">
           <el-form-item label="用户名" prop="userName">
@@ -97,15 +97,17 @@
 </template>
 
 <script>
+
+import { getWechatOrCodeTicket, getUserLoginStatus} from "@/api/login";
 import {mapGetters} from "vuex";
 import {getPath} from "@/utils/ruoyi";
-import LoginBox from "@/components/LoginBox";
+//import LoginBox from "@/components/LoginBox";
 import {Loading} from "element-ui";
 
 export default {
   name: 'MyHeader',
   components: {
-    LoginBox
+  //  LoginBox
   },
   data() {
     return {
