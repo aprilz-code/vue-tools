@@ -26,16 +26,16 @@
     <el-dialog
         title="欢迎登录"
         :visible.sync="showLoginBox"
-        width="30%"
+        :width="dialogWidth"
         center>
       <el-divider></el-divider>
 
-      <el-form  :rules="loginRules" :model="loginForm" ref="loginForm">
+      <el-form :rules="loginRules" :model="loginForm" ref="loginForm">
 
         <div class="passwordLogin" v-if="loginType=='pwd'">
           <el-form-item label="用户名" prop="userName">
             <el-input type="text" v-model.trim="loginForm.userName" placeholder="请输入用户名" auto-complete="off"
-                      :disabled="loginType.password"></el-input>
+                      :disabled="loginTypes.password"></el-input>
           </el-form-item>
           <el-form-item label="密码" prop="password">
             <el-input v-model="loginForm.password" type="password" auto-complete="off" placeholder="请输入密码">
@@ -79,18 +79,50 @@
           </el-tooltip>
 
         </el-row>
-        <div class="loginTip">目前登录方式支持
-          <span v-if="!loginType.password"> 账号密码 </span>
-          <span v-if="!loginType.gitee"> 码云 </span>
-          <span v-if="!loginType.github"> Github </span>
-          <span v-if="!loginType.qq"> QQ </span>
-          <span v-if="!loginType.wechat"> 微信 </span>
-        </div>
       </el-form>
 
-    <span slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="startLogin">确 定</el-button>
+      <span slot="footer" class="dialog-footer" :disabled="loginTypes.password">
+        <el-button type="primary" @click="startLogin">登 录</el-button>
         <el-button @click="closeLoginBox">取 消</el-button>
+  </span>
+    </el-dialog>
+
+
+    <el-dialog
+        title="欢迎注册"
+        :visible.sync="showRegisterBox"
+        :width="dialogWidth"
+        center>
+      <el-divider></el-divider>
+
+      <el-form :rules="registerRules" :model="registerForm" ref="registerForm">
+
+        <div class="passwordLogin" v-if="loginType=='pwd'">
+          <el-form-item label="用户名" prop="userName">
+            <el-input type="text" v-model.trim="registerForm.userName" placeholder="请输入用户名" auto-complete="off"
+                      :disabled="loginTypes.password"></el-input>
+          </el-form-item>
+          <el-form-item label="昵称" prop="nickName">
+            <el-input v-model="registerForm.nickName" placeholder="昵称长度在1~20之间"
+                      :disabled="loginTypes.password"></el-input>
+          </el-form-item>
+
+          <el-form-item label="密码" prop="password">
+            <el-input v-model="registerForm.password" type="password" auto-complete="off" placeholder="请输入密码">
+            </el-input>
+          </el-form-item>
+
+          <el-form-item label="确认密码" prop="password2">
+            <el-input v-model="registerForm.password2" type="password" auto-complete="off" placeholder="请输入确认密码">
+            </el-input>
+          </el-form-item>
+        </div>
+
+      </el-form>
+
+      <span slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="startRegister()" :disabled="loginTypes.password">注 册</el-button>
+        <el-button @click="closeRegister()">取 消</el-button>
   </span>
     </el-dialog>
   </div>
@@ -98,7 +130,7 @@
 
 <script>
 
-import { getWechatOrCodeTicket, getUserLoginStatus} from "@/api/login";
+import {getUserLoginStatus, getWechatOrCodeTicket} from "@/api/login";
 import {mapGetters} from "vuex";
 import {getPath} from "@/utils/ruoyi";
 //import LoginBox from "@/components/LoginBox";
@@ -107,12 +139,13 @@ import {Loading} from "element-ui";
 export default {
   name: 'MyHeader',
   components: {
-  //  LoginBox
+    //  LoginBox
   },
   data() {
     return {
+      dialogWidth: 0,
       showLoginBox: false, //显示登录框
-      showRegisterBox: false, //显示登录框
+      showRegisterBox: false, //显示注册框
       loginType: "pwd", // 默认账号密码登录
       wechatOrCode: "", // 微信公众号登录二维码
       // 登录类别 false为开启
@@ -134,9 +167,6 @@ export default {
           {min: 5, message: "用户名长度大于等于 5 个字符", trigger: "blur"},
           {max: 20, message: "用户名长度不能大于 20 个字符", trigger: "blur"}
         ],
-        // mobile: [
-        //     {required: true, message: '请输入手机号', trigger: 'blur'},
-        // ],
         nickName: [
           {required: true, message: '请输入昵称', trigger: 'blur'},
           {min: 1, message: "用户名长度大于等于 1 个字符", trigger: "blur"},
@@ -148,9 +178,51 @@ export default {
           {max: 20, message: "密码长度不能大于 20 个字符", trigger: "blur"}
         ]
       },
+      registerForm: {
+        userName: "",
+        nickName: "",
+        password: "",
+        password2: "",
+        //email: ""
+      },
+      registerRules: {
+        userName: [
+          {required: true, message: '请输入用户名', trigger: 'blur'},
+          {min: 5, message: "用户名长度大于等于 5 个字符", trigger: "blur"},
+          {max: 20, message: "用户名长度不能大于 20 个字符", trigger: "blur"}
+        ],
+        nickName: [
+          {required: true, message: '请输入昵称', trigger: 'blur'}
+        ],
+        password: [
+          {required: true, message: "请输入密码", trigger: "blur"},
+          {min: 5, message: "密码长度需要大于等于 5 个字符", trigger: "blur"},
+          {max: 20, message: "密码长度不能大于 20 个字符", trigger: "blur"}
+        ],
+        password2: [
+          {required: true, message: "请再次输入密码", trigger: "blur"},
+          {min: 5, message: "密码长度需要大于等于 5 个字符", trigger: "blur"},
+          {max: 20, message: "密码长度不能大于 20 个字符", trigger: "blur"}
+        ]
+        // email: [
+        //   {required: true, message: "邮箱不能为空", trigger: "blur"},
+        //   {pattern: /\w[-\w.+]*@([A-Za-z0-9][-A-Za-z0-9]+\.)+[A-Za-z]{2,14}/, message: '请输入正确的邮箱'},
+        // ]
+      }
     }
   },
-
+  created() {
+    //初始化调用
+    this.setDialogWidth()
+  },
+  mounted() {
+    //监听窗口宽度
+    window.onresize = () => {
+      return (() => {
+        this.setDialogWidth()
+      })()
+    }
+  },
   computed: {
     ...mapGetters([
       //同名缩写
@@ -160,6 +232,18 @@ export default {
 
   },
   methods: {
+    setDialogWidth() {
+      //console.log(document.body.clientWidth)
+      var val = document.body.clientWidth
+      const def = 800 //宽度最小为800,可修改
+      //窗口宽度小于默认宽度时，将弹框看度设置为30%,可修改
+      if (val > def) {
+        this.dialogWidth = '30%'
+      } else {
+        //窗口宽度大于默认宽度1200时，将弹框设置为400宽度,可修改
+        this.dialogWidth =  '300px'
+      }
+    },
     startLogin: function () {
       this.$refs.loginForm.validate((valid) => {
         console.log("开始校验", valid)
@@ -251,13 +335,60 @@ export default {
       });
     },
     userLogin: function () {
-      this.showLoginBox = true;
+      this.showRegisterBox = false
+      this.showLoginBox = true
     },
     closeLoginBox: function () {
-      this.showLoginBox = false;
+      this.showLoginBox = false
+    },
+    closeRegister() {
+      this.showRegisterBox = false
+    },
+    startRegister() {
+      this.$refs.registerForm.validate((valid) => {
+        if (!valid) {
+          console.log('校验失败')
+          return;
+        } else {
+          let passWord = this.registerForm.password;
+          let passWord2 = this.registerForm.password2;
+          if (passWord != passWord2) {
+            this.$message({
+              type: "success",
+              message: "两次密码不一致"
+            })
+            return;
+          }
+          this.$message({
+            type: "success",
+            message: "准备注册"
+          })
+          // var params = {};
+          // params.userName = this.registerForm.userName;
+          // params.passWord = this.registerForm.password;
+          // params.email = this.registerForm.email;
+          // params.nickName = this.registerForm.nickName
+          // localRegister(params).then(response => {
+          //   if (response.code == this.$ECode.SUCCESS) {
+          //     this.$message({
+          //       type: "success",
+          //       message: response.data
+          //     })
+          //     // 打开登录页面
+          //     this.goLogin();
+          //   } else {
+          //     this.$message({
+          //       type: "error",
+          //       message: response.data
+          //     })
+          //   }
+          // });
+        }
+      })
     },
     userRegister() {
-      this.showRegisterBox = true;
+      this.showLoginBox = false
+      this.showRegisterBox = true
     },
     // 点击头像触发的动作
     handleCommand(command) {
@@ -295,6 +426,11 @@ export default {
   position: absolute;
   right: 30px;
   top: 10px;
+}
+
+.custWidth {
+  width: 30%;
+  min-width: 600px;
 }
 
 

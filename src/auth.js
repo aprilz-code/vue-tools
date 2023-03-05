@@ -22,10 +22,11 @@ router.beforeEach((to, from, next) => {
 
     if (to.matched.some(res => res.meta.requireAuth)) {// 判断是否需要登录权限
             // 没登录则跳转到登录界面
-            next({
-                path: '/login', //加密url
-                query: {redirect: encodeURIComponent(to.fullPath)}
-            })
+            Message.error("请先登录")
+            // next({
+            //     path: '/login', //加密url
+            //     query: {redirect: encodeURIComponent(to.fullPath)}
+            // })
     } else {
         next()
 
