@@ -46,6 +46,14 @@ module.exports = defineConfig({
                     ['^' + process.env.VUE_APP_BASE_API]: ''
                 }
             },
+            // ['/ws']: {
+            //     target: 'ws://127.0.0.1:48080/app-api',
+            //     changeOrigin: true,
+            //     ws: true, //开启websocket
+            //     pathRewrite: {
+            //         ['^/ws']: ''
+            //     }
+            // },
             '/han-api':{
                 target: 'https://api.vvhan.com/api',
                 changeOrigin: true,//允许跨域

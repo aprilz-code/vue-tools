@@ -8,6 +8,8 @@ import AVUE from '@assets/js/avue.min.js'
 import './auth'
 import store from './store'
 import '@assets/css/avue.css'
+//引入'font-awesome 字体样式
+import 'font-awesome/css/font-awesome.min.css'
 // 全局引入封装组件
 import {InstallAll} from '@/components/global.js';
 

@@ -65,6 +65,9 @@ export const constantRoutes = [
                 path: 'talk',
                 component: (resolve) => require(['@/pages/tools/talk'], resolve),
                 name: '聊天室',
+                meta: {
+                    requireAuth: true //该处代表需要登录才能访问的页面
+                },
             }
         ]
     },

@@ -33,10 +33,10 @@
                             click: function (item) {
                             },
                             title: '京东挂机',
-                            imgsrc: 'https://tuapi.eees.cc/api.php?category=dongman&type=302&px=pc&r=' + Math.floor((Math.random()*1000)+1),
+                            imgsrc: 'https://s1.ax1x.com/2023/03/05/ppEjsTH.png',
                             headimg: [
                                 // {
-                                //     src:'https://tuapi.eees.cc/api.php?category=dongman&type=302&px=pc&r=' + Math.floor((Math.random()*1000)+1),
+                                //     src:'https://s1.ax1x.com/2023/03/05/ppEjxnU.jpg',
                                 //     name:'张三'
                                 // },
 
@@ -50,7 +50,7 @@
                             click: function (item) {
                             },
                             title: '小米运动',
-                            imgsrc: 'https://tuapi.eees.cc/api.php?category=dongman&type=302&px=pc&r=' + Math.floor((Math.random()*1000)+1),
+                            imgsrc: 'https://s1.ax1x.com/2023/03/05/ppEjxnU.jpg',
                             headimg: [],
                             content: '实时修改支付宝，微信，qq等运动步数',
                             //href:'https://mi.losey.top',
@@ -62,7 +62,7 @@
                             click: function (item) {
                             },
                             title: '淘宝买家秀',
-                            imgsrc: 'https://tuapi.eees.cc/api.php?category=dongman&type=302&px=pc&r=' + Math.floor((Math.random()*1000)+1),
+                            imgsrc: 'https://s1.ax1x.com/2023/03/05/ppEjbhn.jpg',
                             headimg: [],
                             content: '淘宝买家秀',
                             href:'/tools/tbShow',
@@ -73,7 +73,7 @@
                             click: function (item) {
                             },
                             title: 'jd口令解析',
-                            imgsrc: 'https://tuapi.eees.cc/api.php?category=dongman&type=302&px=pc&r=' + Math.floor((Math.random()*1000)+1),
+                            imgsrc: 'https://s1.ax1x.com/2023/03/05/ppEjzBF.jpg',
                             headimg: [],
                             content: 'jd 口令解析以及链接生成口令',
                             href:'/tools/jdTool',
@@ -84,7 +84,7 @@
                         //     click: function (item) {
                         //     },
                         //     title: '桐人',
-                        //     imgsrc: 'https://tuapi.eees.cc/api.php?category=dongman&type=302&px=pc&r=' + Math.floor((Math.random()*1000)+1),
+                        //     imgsrc: 'https://s1.ax1x.com/2023/03/05/ppEjLpq.jpg',
                         //     headimg: [],
                         //     content: 'xxxxxxxx',
                         //     href:'https://avuejs.com',
@@ -95,7 +95,7 @@
                         //     click: function (item) {
                         //     },
                         //     title: '桐人',
-                        //     imgsrc: 'https://tuapi.eees.cc/api.php?category=dongman&type=302&px=pc&r=' + Math.floor((Math.random()*1000)+1),
+                        //     imgsrc: 'https://s1.ax1x.com/2023/03/05/ppEjxnU.jpg',
                         //     headimg: [],
                         //     content: 'xxxxxxxx',
                         //     href:'https://avuejs.com',
@@ -106,7 +106,7 @@
                         //     click: function (item) {
                         //     },
                         //     title: '桐人',
-                        //     imgsrc: 'https://tuapi.eees.cc/api.php?category=dongman&type=302&px=pc&r=' + Math.floor((Math.random()*1000)+1),
+                        //     imgsrc: 'https://s1.ax1x.com/2023/03/05/ppEjxnU.jpg',
                         //     headimg: [],
                         //     content: 'xxxxxxxx',
                         //     href:'https://avuejs.com',
@@ -117,7 +117,7 @@
                         //     click: function (item) {
                         //     },
                         //     title: '桐人',
-                        //     imgsrc: 'https://tuapi.eees.cc/api.php?category=dongman&type=302&px=pc&r=' + Math.floor((Math.random()*1000)+1),
+                        //     imgsrc: 'https://s1.ax1x.com/2023/03/05/ppEjxnU.jpg',
                         //     headimg: [],
                         //     content: 'xxxxxxxx',
                         //     href:'https://avuejs.com',
