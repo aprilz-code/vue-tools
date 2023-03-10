@@ -252,11 +252,9 @@ export default {
           return;
         } else {
           this.$store.dispatch("Login", this.loginForm).then(() => {
-            this.$store.dispatch("GetInfo").then(() => {
-              this.closeLogin()
-            })
+            this.closeLoginBox()
+            this.$store.dispatch("GetInfo")
           })
-
         }
       })
     },
@@ -329,7 +327,7 @@ export default {
     async logout() {
       this.$confirm('确定注销并退出系统吗？', '提示').then(() => {
         this.$store.dispatch('LogOut').then(() => {
-          location.href = getPath('/index');
+          location.href = getPath('/');
         })
       }).catch(() => {
       });

@@ -20,7 +20,7 @@ import "@/assets/css/iconfont/iconfont.css";
 Vue.prototype.$clipboard = Clipboard;
 
 // 默认点击背景不关闭弹窗
-// Element.Dialog.props.closeOnClickModal.default = false
+ Element.Dialog.props.closeOnClickModal.default = false
 
 Vue.use(Element);
 Vue.use(AVUE);
