@@ -2,14 +2,14 @@
   <div>
 
     <div style="float:right;" class="userInfoAvatar">
-                <span v-show="nickname ==undefined || nickname == ''">
+                <span v-show="userName ==undefined || userName == ''">
                     <el-button style="display: inline-block;" type="text" @click="userLogin">登录</el-button>
                     <el-button style="display: inline-block;" type="text" @click="userRegister">免费注册</el-button>
                 </span>
 
     </div>
 
-    <el-dropdown @command="handleCommand" class="userInfoAvatar" v-show="nickname !=undefined && nickname !=''">
+    <el-dropdown @command="handleCommand" class="userInfoAvatar" v-show="userName !=undefined && userName !=''">
 
       <el-avatar :size="50" fit="cover" :src="avatar" @error="errorHandler">
         <img :src="require('@assets/images/profile.jpg')"/>
@@ -228,8 +228,8 @@ export default {
       //同名缩写
       "avatar",
       "nickname",
+      "userName"
     ]),
-
   },
   methods: {
     setDialogWidth() {

@@ -3,6 +3,21 @@ import Router from 'vue-router'
 
 import appMain from '@/components/AppMain'
 
+// 对Router原型链上的push、replace方法进行重写，这样就不用每次调用方法都要加上catch。
+//防止  Error: Redirected from “/login” to “/index” via a navigation guard.
+// push
+const originalPush = Router.prototype.push
+Router.prototype.push = function push (location, onResolve, onReject) {
+    if (onResolve || onReject) return originalPush.call(this, location, onResolve, onReject)
+    return originalPush.call(this, location).catch(err => err)
+}
+
+// replace
+const originalReplace = Router.prototype.replace
+Router.prototype.replace= function replace(location) {
+    return originalReplace.call(this, location).catch(err => err)
+}
+
 Vue.use(Router)
 
 // 公共路由

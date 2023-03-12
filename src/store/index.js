@@ -3,11 +3,13 @@ import Vuex from 'vuex'
 
 import user from "@/store/modules/user"
 import app from "@/store/modules/app"
+import chat from "@/store/modules/chat"
 import getters from "@/store/getters";
 
 Vue.use(Vuex)
 
-export default new Vuex.Store({
+
+const store = new Vuex.Store({
   state: {
   },
   getters,
@@ -17,10 +19,25 @@ export default new Vuex.Store({
   },
   modules: {
     app,
-    user
+    user,
+    chat
   }
 })
 
+/**
+ * 监听state.sessions，有变化就重新保存到local Storage中chat-session中
+ */
+store.watch(function (state) {
+  return state.sessions
+},function (val) {
+  console.log('CHANGE: ', val);
+  localStorage.setItem('chat-session', JSON.stringify(val));
+},{
+  deep:true/*这个貌似是开启watch监测的判断,官方说明也比较模糊*/
+})
+
+
+export default store
 
 
 /** Vuex的核心概念

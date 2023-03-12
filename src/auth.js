@@ -4,12 +4,9 @@ import {Message} from 'element-ui'
 
 //目前不校验permission，只校验一些需要登录才能使用的页面功能，后端接口涉及拦截在request.js
 router.beforeEach((to, from, next) => {
-    debugger
-
-
     if (to.matched.some(res => res.meta.requireAuth)) {// 判断是否需要登录权限
         if (sessionStorage.getItem('ACCESS_TOKEN')) {
-            if (to.path === '/login') {
+            if (to.path === '/login' ) {
                 next({path: '/'})
             } else {
                 store.dispatch('GetInfo').then(() => {
@@ -27,8 +24,11 @@ router.beforeEach((to, from, next) => {
             Message.error('请先登录')
             next({path: '/'})
         }
-
     }else{
+        //做刷新store
+        store.dispatch('GetInfo').then(() => {
+        }).catch(err => {
+        })
         next()
     }
 

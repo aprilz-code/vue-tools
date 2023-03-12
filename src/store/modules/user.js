@@ -5,6 +5,7 @@ const user = {
     state: {
         id: 0, // 用户编号
         nickname: '',
+        userName:'',
         avatar: '',
         //token: ''
         //tokene存在store中，刷新会丢失
@@ -13,6 +14,9 @@ const user = {
     mutations: {
         SET_ID: (state, id) => {
             state.id = id
+        },
+        SET_USERNAME: (state, userName) => {
+            state.userName = userName
         },
         SET_NICKNAME: (state, nickname) => {
             state.nickname = nickname
@@ -88,9 +92,11 @@ const user = {
                         resolve(res)
                     }
                     res = res.data; // 读取 data 数据
+                    debugger
                     const avatar = ( res.avatar === "" || res.avatar == null ) ? require("@/assets/images/profile.jpg") : user.avatar;
                     commit('SET_ID', res.id)
                     commit('SET_NICKNAME', res.nickname)
+                    commit('SET_USERNAME', res.userName)
                     commit('SET_AVATAR', avatar)
                     resolve(res)
                 }).catch(error => {
