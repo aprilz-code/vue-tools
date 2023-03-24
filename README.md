@@ -13,6 +13,6 @@
 
 在线访问地址： https://tool.losey.top
 
-后续再补充 压缩gzip，以及seo优化。。
+后续再补充 seo优化。。
 
 

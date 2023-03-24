@@ -3,8 +3,8 @@ import request from "@/utils/request";
 
 export function groupMsgContent() {
     return request({
-        url: '/bbs/chat/groupMsgContent',
-        method: 'post'
+        url: '/bbs/group-msg-content/list',
+        method: 'get'
     })
 }
 

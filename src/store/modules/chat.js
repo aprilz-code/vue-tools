@@ -1,4 +1,6 @@
 import {getOnlineUsers, groupMsgContent} from '@/api/chat'
+import SockJS from '@/utils/sockjs'
+import Stomp from '@/utils/stomp'
 
 const chat = {
     state: sessionStorage.getItem('state') ? JSON.parse(sessionStorage.getItem('state')) : {
@@ -12,7 +14,7 @@ const chat = {
                     "fromProfile": "https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=1405813947,3985685597&fm=26&gp=0.jpg",
                     "createTime": "2020-06-17 03:02:28",
                     "content": "大家好",
-                    "messageTypeId": 1
+                    "messageType": 'text'
                 }
             ]
         },//聊天记录
@@ -32,6 +34,7 @@ const chat = {
         initRoutes(state, data) {
             state.routes = data;
         },
+        //切换聊天对象
         changeCurrentSession(state, currentSession) {
             //切换到当前用户就标识消息已读
             Vue.set(state.isDot, state.userName + "#" + currentSession.username, false);
@@ -54,7 +57,7 @@ const chat = {
                 fromName: msg.fromName,
                 fromProfile: msg.fromProfile,
                 content: msg.content,
-                messageTypeId: msg.messageTypeId,
+                messageType: msg.messageType,
                 createTime: msg.createTime,
             })
         },
@@ -69,7 +72,7 @@ const chat = {
                 content: msg.content,
                 date: new Date(),
                 fromNickname: msg.fromNickname,
-                messageTypeId: msg.messageTypeId,
+                messageType: msg.messageType,
                 self: !msg.notSelf
             })
         },
@@ -109,9 +112,9 @@ const chat = {
          * @param context
          */
         initData(context) {
-            //初始化聊天记录
+            //初始化群聊聊天记录
             context.commit('INIT_DATA')
-            //获取用户列表
+            //获取在线用户列表
             context.commit('GET_USERS')
         },
         /**
@@ -120,7 +123,7 @@ const chat = {
          */
         connect(context) {
             //连接Stomp站点
-            context.state.stomp = Stomp.over(new SockJS('/ws/ep'));
+            context.state.stomp = Stomp.over(new SockJS('/ws/chat'));
             context.state.stomp.connect({}, success => {
                 /**
                  * 订阅系统广播通知消息
@@ -152,16 +155,16 @@ const chat = {
                 /**
                  * 订阅机器人回复消息
                  */
-                context.state.stomp.subscribe("/user/queue/robot", msg => {
-                    //接收到的消息
-                    let receiveMsg = JSON.parse(msg.body);
-                    //标记为机器人回复
-                    receiveMsg.notSelf = true;
-                    receiveMsg.to = '机器人';
-                    receiveMsg.messageTypeId = 1;
-                    //添加到消息记录保存
-                    context.commit('addMessage', receiveMsg);
-                })
+                // context.state.stomp.subscribe("/user/queue/robot", msg => {
+                //     //接收到的消息
+                //     let receiveMsg = JSON.parse(msg.body);
+                //     //标记为机器人回复
+                //     receiveMsg.notSelf = true;
+                //     receiveMsg.to = '机器人';
+                //     receiveMsg.messageType = 1;
+                //     //添加到消息记录保存
+                //     context.commit('addMessage', receiveMsg);
+                // })
                 /**
                  * 订阅私人消息
                  */

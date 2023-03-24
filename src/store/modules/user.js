@@ -92,7 +92,6 @@ const user = {
                         resolve(res)
                     }
                     res = res.data; // 读取 data 数据
-                    debugger
                     const avatar = ( res.avatar === "" || res.avatar == null ) ? require("@/assets/images/profile.jpg") : user.avatar;
                     commit('SET_ID', res.id)
                     commit('SET_NICKNAME', res.nickname)

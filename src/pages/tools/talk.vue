@@ -7,7 +7,7 @@
           <my-aside/>
         </el-aside>
         <el-main>
-          <div id="app">
+          <div id="talk">
               <div class="toolbar">
                 <toolbar />
               </div>
@@ -60,17 +60,35 @@ export default {
       data: {},
 
     }
-  }
+  },
+  // mounted:function() {
+  //   //初始化数据
+  //   this.$store.dispatch('initData');
+  //   //连接WebSocket服务
+  //   this.$store.dispatch('connect');
+  // },
+  // created () {
+  //   // //在页面加载时读取sessionStorage里的状态信息
+  //   // if (sessionStorage.getItem("state") ) {
+  //   //   this.$store.replaceState(Object.assign({}, this.$store.state,JSON.parse(sessionStorage.getItem("store"))))
+  //   // }
+  //
+  //   //在页面刷新时将vuex里的最新信息保存到sessionStorage里   TODO vuex刷新会丢失？？
+  //   window.addEventListener("beforeunload",()=>{
+  //     sessionStorage.setItem("state",JSON.stringify(this.$store.state.chat))
+  //   })
+  // }
 }
 </script>
 
 <style scoped>
-#app {
+#talk {
   margin: 20px auto;
   width: 900px;
   height: 650px;
   overflow: hidden;
   border-radius: 10px;
+}
 
 .sidebar, .main, .toolbar {
   height: 100%;
@@ -96,5 +114,5 @@ export default {
   background-color: #eee;
 }
 
-}
+
 </style>

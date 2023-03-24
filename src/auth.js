@@ -7,14 +7,14 @@ router.beforeEach((to, from, next) => {
     if (to.matched.some(res => res.meta.requireAuth)) {// 判断是否需要登录权限
         if (sessionStorage.getItem('ACCESS_TOKEN')) {
             if (to.path === '/login' ) {
-                next({path: '/'})
+                next({path: '/'}).catch(() => { })
             } else {
                 store.dispatch('GetInfo').then(() => {
                     //刷新用户信息 校验token有效性
                     next()
                 }).catch(err => {
                     Message.error(err)
-                    next({path: '/'})
+                    next({path: '/'}).catch(() => { })
                     // store.dispatch('LogOut').then(() => {
                     //     next({path: '/'})
                     // })
@@ -22,7 +22,7 @@ router.beforeEach((to, from, next) => {
             }
         }else{
             Message.error('请先登录')
-            next({path: '/'})
+            next({path: '/'}).catch(() => { })
         }
     }else{
         //做刷新store
