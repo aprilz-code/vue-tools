@@ -7,6 +7,11 @@ import { Notification } from 'element-ui';
 const chat = {
     state: sessionStorage.getItem('state') ? JSON.parse(sessionStorage.getItem('state')) : {
         routes: [],
+        //当前登录用户信息
+        id: '', // 用户编号
+        nickname: '',
+        userName:'',
+        avatar: '',
         sessions: {
             // '群聊': [
             //     {
@@ -22,24 +27,41 @@ const chat = {
         },//聊天记录
         users: [],//用户列表
         // currentUser:null,//当前登录用户 移除取user.js
-        currentSession: {name : '群聊'},//当前选中的用户，默认为群聊
+        currentSession: {nickname : '群聊',id:'0'},//当前选中的用户，默认为群聊
         currentList: '群聊',//当前聊天窗口列表
         filterKey: '',
         stomp: null,
         isDot: {
-            'aprilz#群聊': false
+            '群聊': false
         },//两用户之间是否有未读信息
         errorImgUrl: "https://s1.locimg.com/2023/03/10/7df9c650583ca.png",//错误提示图片
         shotHistory: {}//拍一拍的记录历史
     },
     mutations: {
+        SET_ID: (state, id) => {
+            state.id = id
+        },
+        SET_USERNAME: (state, userName) => {
+            state.userName = userName
+        },
+        SET_NICKNAME: (state, nickname) => {
+            state.nickname = nickname
+        },
+        SET_AVATAR: (state, avatar) => {
+            state.avatar = avatar
+        },
         initRoutes(state, data) {
             state.routes = data;
         },
         //切换聊天对象
         changeCurrentSession(state, currentSession) {
             //切换到当前用户就标识消息已读
-            Vue.set(state.isDot, state.userName + "#" + currentSession.name, false);
+            var fromId = state.id;
+            var toId = currentSession.id;
+            var privateChatId;
+            privateChatId = fromId  + "#" + toId;
+
+            Vue.set(state.isDot, privateChatId, false);
             //更新当前选中的用户
             state.currentSession = currentSession;
         },
@@ -65,7 +87,7 @@ const chat = {
         },
         //保存单聊数据
         addMessage(state, msg) {
-            let message = state.sessions[state.userName + "#" + msg.to];
+            let message = state.sessions[state.id + "#" + msg.to];
             if (!message) {
                 //创建保存消息记录的数组
                 Vue.set(state.sessions, state.userName + "#" + msg.to, []);
@@ -148,7 +170,7 @@ const chat = {
                     let receiveMsg = JSON.parse(msg.body);
                     console.log("收到消息" + receiveMsg);
                     //当前点击的聊天界面不是群聊,默认为消息未读
-                    if (context.state.currentSession.name != "群聊") {
+                    if (context.state.currentSession.nickname != "群聊") {
                         Vue.set(context.state.isDot, context.state.userName + "#群聊", true);
                     }
                     //提交消息记录
@@ -174,7 +196,7 @@ const chat = {
                     //接收到的消息数据
                     let receiveMsg = JSON.parse(msg.body);
                     //没有选中用户或选中用户不是发来消息的那一方
-                    if (!context.state.currentSession || receiveMsg.from != context.state.currentSession.name) {
+                    if (!context.state.currentSession || receiveMsg.from != context.state.currentSession.nickname) {
                         Notification.info({
                             title: '【' + receiveMsg.fromNickname + '】发来一条消息',
                             message: receiveMsg.content.length < 8 ? receiveMsg.content : receiveMsg.content.substring(0, 8) + "...",

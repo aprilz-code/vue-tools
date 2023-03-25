@@ -68,6 +68,8 @@ export default {
     this.$store.dispatch('connect');
   },
   destroyed() {
+    console.log("sessionStorage state clear")
+    sessionStorage.setItem("state", {});
     this.$store.dispatch('disconnect');
   },
   created () {

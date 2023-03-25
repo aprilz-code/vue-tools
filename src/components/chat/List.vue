@@ -3,16 +3,16 @@
   	<ul v-if="currentList=='群聊'">
 <!--群聊列表-->
 			<p style="padding: 2px 4px;height: 20px;text-align: left">群聊列表</p>
-			<li :class="{ active: currentSession?'群聊'== currentSession.name:false }"
+			<li :class="{ active: currentSession?'群聊'== currentSession.nickname:false }"
 					v-on:click="changeCurrentSession(chatObj)">
 				<img class="avatar" src="https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=1268761962,3976237305&fm=26&gp=0.jpg">
-				<el-badge :is-dot="isDot[userName+'#群聊']"><p class="name">群聊</p></el-badge>
+				<el-badge :is-dot="isDot['群聊']"><p class="name">群聊</p></el-badge>
 			</li>
 			</ul>
 <!--机器人-->
 		<ul v-if="currentList=='机器人'">
 			<p style="padding: 2px 4px;height: 20px;text-align: left">快来和机器人聊天吧！</p>
-			<li :class="{ active: currentSession?'机器人'== currentSession.name:false }"
+			<li :class="{ active: currentSession?'机器人'== currentSession.nickname:false }"
 					v-on:click="changeCurrentSession(robotObj)">
 				<img class="avatar" src="https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2548892998,499717296&fm=26&gp=0.jpg">
 				<p class="name">瓦力(智能回复)</p>
@@ -23,11 +23,11 @@
 											  view-style="height:100%;" :native="false">
 		<ul v-if="currentList=='私聊'" >
 			<p style="padding: 2px 4px;height: 20px;text-align: left">用户列表</p>
-  		<li v-for="item in users" :class="{ active: currentSession?item.username === currentSession.name:false }"
+  		<li v-for="item in users" :class="{ active: currentSession?item.nickname === currentSession.nickname:false }"
 					v-on:click="changeCurrentSession(item)"><!--   :class="[item.id === currentSession ? 'active':'']" -->
 				<div style="display: flex;justify-content: space-between">
 					<div>
-						<el-badge :is-dot="isDot[userName+'#'+item.username]" style="">
+						<el-badge :is-dot="isDot[currentSession.id+'#'+item.id]" style="">
 							<el-image class="avatar"
 												:preview-src-list="[item.userProfile]"
 												:src="item.userProfile"
@@ -57,7 +57,7 @@ export default {
   data () {
     return {
 			//user:this.$store.state.currentUser,
-			chatObj:{name:'群聊'},//群聊实体对象（为方法复用而构造，对于User对象）
+			chatObj:{nickname:'群聊',id:'0'},//群聊实体对象（为方法复用而构造，对于User对象）
 			robotObj:{
 				username:'机器人',
 				nickname:'机器人',
@@ -77,8 +77,7 @@ export default {
     ...mapGetters([
       //同名缩写
       "avatar",
-      "nickname",
-      "userName",
+      "nickname"
     ]),
   },
   created() {

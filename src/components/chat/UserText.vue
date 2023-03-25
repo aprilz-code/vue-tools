@@ -68,22 +68,25 @@ export default {
       msgObj.groupId = 1;
       msgObj.messageType = 'text';
       //发送群聊消息
-      if (this.currentSession.name == "群聊") {
+      if (this.currentSession.nickname == "群聊") {
         console.log(this.content);
         this.$store.state.chat.stomp.send("/ws/groupChat", {Authorization: getAccessToken()}, JSON.stringify(msgObj));
       }
       //给机器人发送消息
-      if (this.currentSession.name == "机器人") {
-        msgObj.fromNickname = this.$store.state.currentUser.nickname;
+      if (this.currentSession.nickname == "机器人") {
+        msgObj.fromNickname = this.$store.state.user.nickname;
         msgObj.to = '机器人';
         this.$store.state.chat.stomp.send("/ws/robotChat", {}, JSON.stringify(msgObj));
         //保存该条记录到session
         this.$store.commit('addMessage', msgObj);
       } else {
         //发送私聊消息
-        msgObj.fromId = this.$store.state.id;
-        msgObj.fromName = this.$store.state.nickname;
-        msgObj.to = this.currentSession.name;
+        msgObj.fromId = this.$store.state.chat.id;
+        msgObj.fromName = this.$store.state.user.nickname;
+        msgObj.fromProfile = this.$store.state.user.avatar;
+        msgObj.toName = this.currentSession.nickname;
+        msgObj.toId = this.currentSession.id;
+        msgObj.privateChatId = msgObj.fromId + "#" + msgObj.toId;
         this.$store.state.chat.stomp.send("/ws/privateChat", {Authorization: getAccessToken()}, JSON.stringify(msgObj));
         //提交私聊消息记录
         this.$store.commit('addMessage', msgObj);
@@ -102,7 +105,7 @@ export default {
     //上传前
     beforeAvatarUpload(file) {
       //不给机器人发送图片
-      if (this.currentSession.name == "机器人") {
+      if (this.currentSession.nickname == "机器人") {
         this.$message.error("瓦力拒绝接收你的图片！")
       }
       //判断图片大小
@@ -127,12 +130,12 @@ export default {
       msgObj.content = response;
       //设置消息类型为图片
       msgObj.messageType = 'img'
-      if (this.currentSession.name == "群聊") {
+      if (this.currentSession.nickname == "群聊") {
         this.$store.state.chat.stomp.send("/ws/groupChat", {Authorization: getAccessToken()}, JSON.stringify(msgObj));
       } else {
-        msgObj.fromId = this.$store.state.id;
-        msgObj.fromName = this.$store.state.nickname;
-        msgObj.to = this.currentSession.name;
+        msgObj.fromId = this.$store.state.user.id;
+        msgObj.fromName = this.$store.state.user.nickname;
+        msgObj.toId = this.currentSession.nickname;
         this.$store.state.chat.stomp.send("/ws/privateChat", {Authorization: getAccessToken()}, JSON.stringify(msgObj));
         //提交私聊消息记录
         this.$store.commit('addMessage', msgObj);

@@ -1,8 +1,8 @@
 <template>
   <div id="message" v-scroll-bottom="sessions">
-    <div v-if="currentSession&& currentSession.name!='群聊'">
+    <div v-if="currentSession&& currentSession.nickname!='群聊'">
             <ul>
-              <li v-for="entry in sessions[nickname+'#'+currentSession.name]">
+              <li v-for="entry in sessions[userId+'#'+currentSession.id]">
                 <p class="time">
                   <span>{{ entry.date | time }}</span>
                 </p>

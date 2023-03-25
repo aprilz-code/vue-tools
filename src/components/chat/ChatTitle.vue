@@ -1,6 +1,6 @@
 <template>
   <div class="chatTitle">
-    <span class="titleName">{{currentSession.name}}</span>
+    <span class="titleName">{{currentSession.nickname}}</span>
     <el-button class="moreBtn" size="small" icon="el-icon-more"></el-button>
   </div>
 </template>
