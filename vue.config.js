@@ -47,9 +47,9 @@ module.exports = defineConfig({
                 }
             },
             ['/ws']: {
-                target: 'http://127.0.0.1:48080',
-                changeOrigin: true,
-                ws: true, //开启websocket
+                target: 'ws://127.0.0.1:48080',
+                //changeOrigin: true,
+                ws: false, //开启websocket
                 // pathRewrite: {
                 //     ['^/ws']: ''
                 // }

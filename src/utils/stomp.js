@@ -369,6 +369,7 @@
         };
 
         Client.prototype.send = function(destination, headers, body) {
+            debugger
             if (headers == null) {
                 headers = {};
             }

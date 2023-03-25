@@ -3,7 +3,7 @@ import {setToken, removeToken} from '@/utils/auth'
 
 const user = {
     state: {
-        id: 0, // 用户编号
+        id: '', // 用户编号
         nickname: '',
         userName:'',
         avatar: '',

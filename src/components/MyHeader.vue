@@ -130,7 +130,7 @@
 
 <script>
 
-import {getUserLoginStatus, getWechatOrCodeTicket} from "@/api/login";
+//import {getUserLoginStatus, getWechatOrCodeTicket} from "@/api/login";
 import {mapGetters} from "vuex";
 import {getPath} from "@/utils/ruoyi";
 //import LoginBox from "@/components/LoginBox";
@@ -281,45 +281,45 @@ export default {
     },
     // 刷新微信二维码
     refreshWechatCode: function () {
-      let that = this
-      getWechatOrCodeTicket().then(response => {
-        if (response.code == this.$ECode.SUCCESS) {
-          console.log("得到的响应", response)
-          this.showPasswordLogin = false
-          let data = response.data
-          let ticket = data.ticket
-          this.wechatOrCode = "https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=" + ticket
-          this.ticket = ticket
-          let count = 0
-          let interval = setInterval(() => {
-            count++
-            // 当检查5次未扫码的时候，将二维码失效，重试关闭接口请求
-            if (count > 5) {
-              this.wechatOrCode = ""
-              clearInterval(interval)
-            }
-            let params = new URLSearchParams()
-            params.append("ticket", ticket)
-            getUserLoginStatus(params).then(response => {
-              console.log("获取用户状态", response)
-              if (response.code == that.$ECode.SUCCESS) {
-                let token = ticket
-                // 判断url中是否含有token
-                if (token != undefined) {
-                  // 设置token七天过期
-                  setCookie("token", token, 7)
-                }
-                this.setUserInfo(response.data)
-                this.setLoginState(true);
-                location.reload();
-              }
-            });
-          }, 3000);
-
-        } else {
-          this.$message.error(response.message)
-        }
-      });
+      // let that = this
+      // getWechatOrCodeTicket().then(response => {
+      //   if (response.code == this.$ECode.SUCCESS) {
+      //     console.log("得到的响应", response)
+      //     this.showPasswordLogin = false
+      //     let data = response.data
+      //     let ticket = data.ticket
+      //     this.wechatOrCode = "https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=" + ticket
+      //     this.ticket = ticket
+      //     let count = 0
+      //     let interval = setInterval(() => {
+      //       count++
+      //       // 当检查5次未扫码的时候，将二维码失效，重试关闭接口请求
+      //       if (count > 5) {
+      //         this.wechatOrCode = ""
+      //         clearInterval(interval)
+      //       }
+      //       let params = new URLSearchParams()
+      //       params.append("ticket", ticket)
+      //       getUserLoginStatus(params).then(response => {
+      //         console.log("获取用户状态", response)
+      //         if (response.code == that.$ECode.SUCCESS) {
+      //           let token = ticket
+      //           // 判断url中是否含有token
+      //           if (token != undefined) {
+      //             // 设置token七天过期
+      //             setCookie("token", token, 7)
+      //           }
+      //           this.setUserInfo(response.data)
+      //           this.setLoginState(true);
+      //           location.reload();
+      //         }
+      //       });
+      //     }, 3000);
+      //
+      //   } else {
+      //     this.$message.error(response.message)
+      //   }
+      // });
     },
     errorHandler() {
       return true

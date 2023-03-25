@@ -1,26 +1,28 @@
 import {getOnlineUsers, groupMsgContent} from '@/api/chat'
 import SockJS from '@/utils/sockjs'
-import Stomp from '@/utils/stomp'
+import  '@/utils/stomp'
+import {getAccessToken} from  '@/utils/auth'
+import { Notification } from 'element-ui';
 
 const chat = {
     state: sessionStorage.getItem('state') ? JSON.parse(sessionStorage.getItem('state')) : {
         routes: [],
         sessions: {
-            '群聊': [
-                {
-                    "id": 1,
-                    "fromId": 1,
-                    "fromName": "王路飞",
-                    "fromProfile": "https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=1405813947,3985685597&fm=26&gp=0.jpg",
-                    "createTime": "2020-06-17 03:02:28",
-                    "content": "大家好",
-                    "messageType": 'text'
-                }
-            ]
+            // '群聊': [
+            //     {
+            //         "id": 1,
+            //         "fromId": 1,
+            //         "fromName": "王路飞",
+            //         "fromProfile": "https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=1405813947,3985685597&fm=26&gp=0.jpg",
+            //         "createTime": new Date(),
+            //         "content": "大家好",
+            //         "messageType": 'text'
+            //     }
+            // ]
         },//聊天记录
         users: [],//用户列表
         // currentUser:null,//当前登录用户 移除取user.js
-        currentSession: {username: '群聊', nickname: '群聊'},//当前选中的用户，默认为群聊
+        currentSession: {name : '群聊'},//当前选中的用户，默认为群聊
         currentList: '群聊',//当前聊天窗口列表
         filterKey: '',
         stomp: null,
@@ -37,7 +39,7 @@ const chat = {
         //切换聊天对象
         changeCurrentSession(state, currentSession) {
             //切换到当前用户就标识消息已读
-            Vue.set(state.isDot, state.userName + "#" + currentSession.username, false);
+            Vue.set(state.isDot, state.userName + "#" + currentSession.name, false);
             //更新当前选中的用户
             state.currentSession = currentSession;
         },
@@ -87,7 +89,7 @@ const chat = {
             //getRequest("/groupMsgContent/")
             groupMsgContent().then(resp => {
                 if (resp) {
-                    Vue.set(state.sessions, '群聊', resp);
+                    Vue.set(state.sessions, '群聊', resp.data);
                 }
             })
         },
@@ -100,7 +102,7 @@ const chat = {
             //getRequest("/chat/users")
             getOnlineUsers().then(resp => {
                 if (resp) {
-                    state.users = resp;
+                    state.users = resp.data;
                 }
             })
         }
@@ -124,7 +126,7 @@ const chat = {
         connect(context) {
             //连接Stomp站点
             context.state.stomp = Stomp.over(new SockJS('/ws/chat'));
-            context.state.stomp.connect({}, success => {
+            context.state.stomp.connect({Authorization: getAccessToken()}, success => {
                 /**
                  * 订阅系统广播通知消息
                  */
@@ -146,7 +148,7 @@ const chat = {
                     let receiveMsg = JSON.parse(msg.body);
                     console.log("收到消息" + receiveMsg);
                     //当前点击的聊天界面不是群聊,默认为消息未读
-                    if (context.state.currentSession.username != "群聊") {
+                    if (context.state.currentSession.name != "群聊") {
                         Vue.set(context.state.isDot, context.state.userName + "#群聊", true);
                     }
                     //提交消息记录
@@ -172,7 +174,7 @@ const chat = {
                     //接收到的消息数据
                     let receiveMsg = JSON.parse(msg.body);
                     //没有选中用户或选中用户不是发来消息的那一方
-                    if (!context.state.currentSession || receiveMsg.from != context.state.currentSession.username) {
+                    if (!context.state.currentSession || receiveMsg.from != context.state.currentSession.name) {
                         Notification.info({
                             title: '【' + receiveMsg.fromNickname + '】发来一条消息',
                             message: receiveMsg.content.length < 8 ? receiveMsg.content : receiveMsg.content.substring(0, 8) + "...",
