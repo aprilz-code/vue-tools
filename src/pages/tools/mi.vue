@@ -5,7 +5,7 @@
       <h2 style="text-align: center">Apirlz小米运动步数修改</h2>
       <el-button style="display:block;margin:0 auto" type="text" @click="dialogVisible = true">常见问题</el-button>
 
-      <el-form class="form" ref="form" :model="form" label-width="auto" style="width: 80%;margin: 20px auto;"
+      <el-form class="form" ref="form" :model="form"  style="width: 80%;margin: 20px auto;"
                :rules="rules" :show-message="true">
 
         <el-row>
