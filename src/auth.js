@@ -25,10 +25,13 @@ router.beforeEach((to, from, next) => {
             next({path: '/'}).catch(() => { })
         }
     }else{
-        //做刷新store
-        store.dispatch('GetInfo').then(() => {
-        }).catch(err => {
-        })
+        //有token才做刷新store
+        if (sessionStorage.getItem('ACCESS_TOKEN')) {
+            store.dispatch('GetInfo').then(() => {
+            }).catch(err => {
+            })
+        }
+
         next()
     }
 
