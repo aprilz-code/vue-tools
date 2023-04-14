@@ -83,6 +83,11 @@ export const constantRoutes = [
                 meta: {
                     requireAuth: true //该处代表需要登录才能访问的页面
                 },
+            },
+            {
+                path: 'pdf',
+                component: (resolve) => require(['@/pages/tools/pdf'], resolve),
+                name: 'pdf预览',
             }
         ]
     },

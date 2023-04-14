@@ -91,17 +91,17 @@
                            // target:'_blank',
                             time:'2023-04-10'
                         },
-                        // {
-                        //     click: function (item) {
-                        //     },
-                        //     title: '桐人',
-                        //     imgsrc: 'https://s1.locimg.com/2023/03/10/7df9c650583ca.png,
-                        //     headimg: [],
-                        //     content: 'xxxxxxxx',
-                        //     href:'https://avuejs.com',
-                        //     target:'_blank',
-                        //     time:'一小时前'
-                        // },
+                        {
+                            click: function (item) {
+                            },
+                            title: 'pdf预览',
+                            imgsrc: 'https://s1.locimg.com/2023/03/10/7df9c650583ca.png',
+                            headimg: [],
+                            content: 'pdf预览',
+                            href:'/tools/pdf',
+                            target:'_blank',
+                            time:'一小时前'
+                        },
                         // {
                         //     click: function (item) {
                         //     },

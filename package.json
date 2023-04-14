@@ -16,6 +16,7 @@
     "font-awesome": "^4.7.0",
     "jsencrypt": "^3.3.1",
     "nprogress": "^0.2.0",
+    "pdfjs-dist": "^3.5.141",
     "vue": "^2.6.14",
     "vue-router": "^3.5.3",
     "vuex": "^3.6.2"
