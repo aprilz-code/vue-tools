@@ -1,6 +1,6 @@
 <template>
     <div>
-        <canvas ref="pdfCanvas"></canvas>
+        <canvas ref="pdfCanvas" id="pdfCanvas"></canvas>
         <div>Page {{currentPage}} of {{numPages}}</div>
         <el-button-group>
             <el-button type="primary" icon="el-icon-arrow-left" @click="onPrevPage">上一页</el-button>
@@ -10,8 +10,8 @@
 </template>
 
 <script>
-import * as  pdfjsLib from 'pdfjs-dist'
-import pdfjsWorker from 'pdfjs-dist/build/pdf.worker.entry'
+let PDFLIB = require('pdfjs-dist')
+PDFLIB.GlobalWorkerOptions.workerSrc = require('pdfjs-dist/build/pdf.worker.entry.js')
 
 export default {
     data() {
@@ -22,16 +22,14 @@ export default {
             pageNumPending: null,
             canvas: null,
             ctx: null,
-            scale: 1.5,
+            scale: 1,
             numPages: null,
-            currentPage: 1,
-            winW: null
+            currentPage: 1
     }
     },
     mounted() {
         this.canvas = this.$refs.pdfCanvas
         this.ctx = this.canvas.getContext('2d')
-        this.winW = document.documentElement.clientWidth;
        // this.renderPage(this.pageNum)
     },
     methods: {
@@ -39,14 +37,23 @@ export default {
             this.pageRendering = true
             this.pdfDoc.getPage(num).then(page => {
                 const viewport = page.getViewport({ scale: this.scale })
-                let scale = (this.winW / viewport.width).toFixed(2)
-                let scaledViewport = page.getViewport({ scale:   scale, })
-                this.canvas.height = scaledViewport.height + 300
-                this.canvas.width = scaledViewport.width
-
+                let dpr = window.devicePixelRatio || 1;
+                let bsr =
+                    this.ctx.webkitBackingStorePixelRatio ||
+                    this.ctx.mozBackingStorePixelRatio ||
+                    this.ctx.msBackingStorePixelRatio ||
+                    this.ctx.oBackingStorePixelRatio ||
+                    this.ctx.backingStorePixelRatio ||
+                    1;
+                let ratio = dpr / bsr;
+                this.canvas.width = viewport.width  * ratio;
+                this.canvas.height = viewport.height * ratio;
+                this.canvas.style.width =window.innerWidth + "px";
+                this.canvas.style.height = window.innerWidth * viewport.height / viewport.width  + "px";
+                this.ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
                 const renderContext = {
                     canvasContext: this.ctx,
-                    viewport: scaledViewport
+                    viewport: viewport
                 }
                 const renderTask = page.render(renderContext)
 
@@ -92,8 +99,7 @@ export default {
     async created() {
         //TODO 有空再抽出来做
         const pdfUrl = 'https://file.losey.top/blog/23%E7%A7%8D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E6%95%B4%E7%90%86.pdf'
-        pdfjsLib.GlobalWorkerOptions.workerSrc = pdfjsWorker
-        const loadingTask = pdfjsLib.getDocument(pdfUrl)
+        const loadingTask = PDFLIB.getDocument(pdfUrl)
          await loadingTask.promise.then((pdf) => {
              this.pdfDoc = pdf
              this.numPages = pdf.numPages
