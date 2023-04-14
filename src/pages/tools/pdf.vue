@@ -3,8 +3,8 @@
         <canvas ref="pdfCanvas" id="pdfCanvas"></canvas>
         <div>Page {{currentPage}} of {{numPages}}</div>
         <el-button-group>
-            <el-button type="primary" icon="el-icon-arrow-left" @click="onPrevPage">上一页</el-button>
-            <el-button type="primary" @click="onNextPage">下一页<i class="el-icon-arrow-right el-icon--right"></i></el-button>
+            <el-button type="primary" size="mini" round  @click="onPrevPage">上一页</el-button>
+            <el-button type="primary" size="mini" round @click="onNextPage">下一页</el-button>
         </el-button-group>
     </div>
 </template>
