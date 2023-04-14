@@ -33,11 +33,6 @@
                         icon: 'el-icon-news',
                         url: '/news',
                         name: '热讯',
-                    },
-                    {
-                        icon: 'el-icon-s-comment',
-                        url: '/tools/talk',
-                        name: '聊天室',
                     }
                 ]
             }

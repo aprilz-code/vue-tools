@@ -80,17 +80,17 @@
                             target:'_blank',
                             time:'2023-01-18'
                         },
-                        // {
-                        //     click: function (item) {
-                        //     },
-                        //     title: '桐人',
-                        //     imgsrc: 'https://s1.locimg.com/2023/03/10/7df9c650583ca.png',
-                        //     headimg: [],
-                        //     content: 'xxxxxxxx',
-                        //     href:'https://avuejs.com',
-                        //     target:'_blank',
-                        //     time:'一小时前'
-                        // },
+                        {
+                            click: function (item) {
+                            },
+                            title: '聊天室',
+                            imgsrc: 'https://s1.locimg.com/2023/03/10/7df9c650583ca.png',
+                            headimg: [],
+                            content: '聊天室',
+                            href:'/tools/talk',
+                           // target:'_blank',
+                            time:'2023-04-10'
+                        },
                         // {
                         //     click: function (item) {
                         //     },
