@@ -22,7 +22,6 @@ export default {
             pageNumPending: null,
             canvas: null,
             ctx: null,
-            scale: 1,
             numPages: null,
             currentPage: 1
     }
@@ -36,7 +35,6 @@ export default {
         renderPage(num) {
             this.pageRendering = true
             this.pdfDoc.getPage(num).then(page => {
-                const viewport = page.getViewport({ scale: this.scale })
                 let dpr = window.devicePixelRatio || 1;
                 let bsr =
                     this.ctx.webkitBackingStorePixelRatio ||
@@ -45,9 +43,10 @@ export default {
                     this.ctx.oBackingStorePixelRatio ||
                     this.ctx.backingStorePixelRatio ||
                     1;
+                let viewport = page.getViewport({scale:screen.availWidth / page.getViewport({scale:1.0}).width});//这是让pdf文件的大小等于视口的大小
                 let ratio = dpr / bsr;
                 this.canvas.width = viewport.width  * ratio;
-                this.canvas.height = viewport.height * ratio;
+                this.canvas.height = viewport.height * ratio; //这里会进行压缩，解决模糊问题
                 this.canvas.style.width =window.innerWidth + "px";
                 this.canvas.style.height = window.innerWidth * viewport.height / viewport.width  + "px";
                 this.ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
